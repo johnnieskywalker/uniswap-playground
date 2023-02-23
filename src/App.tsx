@@ -37,13 +37,10 @@ console.log(process.env.REACT_APP_JSON_RPC_NODE_URL);
       <br />
       <label>
         COMP amount:
-        <input type="number" value={compAmount} disabled />
+        <input type="number" value={compAmount} />
       </label>
       <br />
       <p>Swap path: {path.join(" -> ")}</p>
-      {process.env.REACT_APP_JSON_RPC_NODE_URL}
-      {process.env.REACT_APP_DUPA}
-      {`${process.env}`}
     </div>
   );
 }
