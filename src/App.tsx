@@ -8,10 +8,9 @@ const path = getPath();
 
 
 function App() {
-  console.log('json rpc node')
-console.log(process.env.REACT_APP_JSON_RPC_NODE_URL);
 
-  const [usdcAmount, setUsdcAmount] = useState(0);
+  const SUGGESTED_INITIAL_USDC_AMOUNT = 2000;
+  const [usdcAmount, setUsdcAmount] = useState(SUGGESTED_INITIAL_USDC_AMOUNT);
   const [compAmount, setCompAmount] = useState(0);
   
   const handleUsdcAmountChange = async (
@@ -21,11 +20,13 @@ console.log(process.env.REACT_APP_JSON_RPC_NODE_URL);
     setUsdcAmount(amount);
     const amountOut = await getAmountOut(amount);
     console.log('amountOut',amountOut)
-    setCompAmount(amountOut);
+    setCompAmount(parseFloat(amountOut)*10*18);
   };
 
   return (
     <div>
+      <h1>Uniswap V2</h1>
+      Change USDC amount to see the amount of COMP you will get.
       <label>
         USDC amount:
         <input
@@ -37,7 +38,7 @@ console.log(process.env.REACT_APP_JSON_RPC_NODE_URL);
       <br />
       <label>
         COMP amount:
-        <input type="number" value={compAmount} />
+        <input type="number" value={compAmount} disabled/>
       </label>
       <br />
       <p>Swap path: {path.join(" -> ")}</p>
