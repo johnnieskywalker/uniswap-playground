@@ -3,15 +3,12 @@ import logo from "./logo.svg";
 import "./App.css";
 import { getAmountOut, getPath } from "./uniswap";
 
-
-const path = getPath();
-
-
 function App() {
 
   const SUGGESTED_INITIAL_USDC_AMOUNT = 2000;
   const [usdcAmount, setUsdcAmount] = useState(SUGGESTED_INITIAL_USDC_AMOUNT);
-  const [compAmount, setCompAmount] = useState(0);
+  const [compAmount, setCompAmount] = useState("0");
+  const [path, setPath] = useState("Loading the Path...");
   
   const handleUsdcAmountChange = async (
     event: React.ChangeEvent<HTMLInputElement>
@@ -20,13 +17,16 @@ function App() {
     setUsdcAmount(amount);
     const amountOut = await getAmountOut(amount);
     console.log('amountOut',amountOut)
-    setCompAmount(parseFloat(amountOut)*10*18);
+    setCompAmount(amountOut);
+    const optimalPath = await  getPath();
+    setPath(optimalPath);
   };
 
   return (
     <div>
       <h1>Uniswap V2</h1>
       Change USDC amount to see the amount of COMP you will get.
+      <br />
       <label>
         USDC amount:
         <input
@@ -41,7 +41,7 @@ function App() {
         <input type="number" value={compAmount} disabled/>
       </label>
       <br />
-      <p>Swap path: {path.join(" -> ")}</p>
+      <p>Swap path: {path}</p>
     </div>
   );
 }

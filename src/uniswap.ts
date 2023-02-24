@@ -1,4 +1,4 @@
-import { JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import { JsonRpcProvider } from "@ethersproject/providers";
 import {
   ChainId,
   Token,
@@ -8,9 +8,7 @@ import {
   TokenAmount,
   TradeType,
   WETH,
-  Pair,
 } from "@uniswap/sdk";
-import { ethers } from "ethers";
 
 const USDC_ADDRESS = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
 const USDC = new Token(ChainId.MAINNET, USDC_ADDRESS, 6);
@@ -100,23 +98,17 @@ async function getAmountOut(usdcAmount: number): Promise<string> {
   console.log(bestTrade[0].executionPrice.toSignificant(6));
   console.log("best trade next mid price for 1 comp in usdc");
   console.log(bestTrade[0].nextMidPrice.toSignificant(6));
-
-  // const pair = await Fetcher.fetchPairData(USDC, WETH[USDC.chainId])
+  console.log("best trade path");
+  console.log(bestTrade[0].route.path.map((token) => token.address));
 
   return bestTrade[0].outputAmount.toSignificant(COMP.decimals);
 }
-// function getRouteForPair(USDC_COMP: Pair) {
-//   return new Route([USDC_COMP], COMP);
-// }
 
-// async function getPath(): Promise<Array<string>> {
-//   const USDC_COMP = await Fetcher.fetchPairData(USDC, COMP, provider)
-//   const usdcCompRoute = getRouteForPair(USDC_COMP)
-//   return usdcCompRoute.path.map(token => token.address)
-// }
-
-function getPath(): Array<string> {
-  return [USDC.address, WETH[1].address, COMP.address];
+async function getPath(): Promise<string> {
+  // TODO - get path from bestTrade
+  const USDC_COMP = await Fetcher.fetchPairData(USDC, COMP, provider);
+  const usdcCompRoute = new Route([USDC_COMP], COMP);
+  return usdcCompRoute.path.map((token) => token.address).join(" => ");
 }
 
 export { getAmountOut, getPath };
