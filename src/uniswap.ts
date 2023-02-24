@@ -105,7 +105,7 @@ async function getAmountOut(usdcAmount: number): Promise<string> {
 }
 
 async function getPath(): Promise<string> {
-  // TODO - get path from bestTrade
+  // TODO - get path from bestTrade, consider using memo
   const USDC_COMP = await Fetcher.fetchPairData(USDC, COMP, provider);
   const usdcCompRoute = new Route([USDC_COMP], COMP);
   return usdcCompRoute.path.map((token) => token.address).join(" => ");
