@@ -90,7 +90,7 @@ async function getAmountOut(usdcAmount: number): Promise<string> {
     console.log("error when creating Trade object\n", e);
   }
   const bestTrade = Trade.bestTradeExactIn([USDC_COMP], usdcTokenAmount, COMP, {
-    maxHops: 100,
+    maxHops: 3,
     maxNumResults: 100,
   });
   console.log("bestTrade", bestTrade);
