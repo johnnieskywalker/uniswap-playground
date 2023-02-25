@@ -6,9 +6,21 @@ import {
   Route,
   Trade,
   TokenAmount,
-  TradeType,
   WETH,
 } from "@uniswap/sdk";
+import { TradeType } from '@uniswap/sdk-core'
+import { Trade as V2TradeSDK } from '@uniswap/v2-sdk'
+import { Trade as V3TradeSDK } from '@uniswap/v3-sdk'
+import { MixedRouteTrade, MixedRouteSDK, Trade as RouterTrade } from '@uniswap/router-sdk'
+import { SwapRouter, UniswapTrade } from "@uniswap/universal-router-sdk";
+// TODO use universal router sdk
+// const options = { slippageTolerance, recipient }
+// const routerTrade = new UniswapTrade(
+//   new RouterTrade({ v2Routes, v3Routes, mixedRoutes, tradeType: TradeType.EXACT_INPUT },
+//   options
+// )
+// // Use the raw calldata and value returned to call into Universal Swap Router contracts
+// const { calldata, value } = SwapRouter.swapCallParameters(routerTrade)
 
 const USDC_ADDRESS = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
 const USDC = new Token(ChainId.MAINNET, USDC_ADDRESS, 6);
