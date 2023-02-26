@@ -2,22 +2,21 @@ import { JsonRpcProvider } from "@ethersproject/providers";
 import { ChainId } from "@uniswap/sdk";
 import { CurrencyAmount, Percent, Token, TradeType } from "@uniswap/sdk-core";
 import { AlphaRouter, SwapType } from "@uniswap/smart-order-router";
+
 const USDC_ADDRESS = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
 const USDC = new Token(ChainId.MAINNET, USDC_ADDRESS, 6);
-
 const COMPOUND_ADDRESS = "0xc00e94Cb662C3520282E6f5717214004A7f26888";
 const COMP = new Token(ChainId.MAINNET, COMPOUND_ADDRESS, 18);
-
-const DEFAULT_HARDHAT_ADDRESS = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-
-const provider = new JsonRpcProvider(process.env.REACT_APP_JSON_RPC_NODE_URL);
-const router = new AlphaRouter({ chainId: 1, provider });
-const options = {
+const DEFAULT_HARDHAT_ADDRESS = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266"; // used as recipient for swaps
+const PROVIDER = new JsonRpcProvider(process.env.REACT_APP_JSON_RPC_NODE_URL);
+const ROUTER = new AlphaRouter({ chainId: 1, provider: PROVIDER });
+const SWAP_OPTIONS = {
   recipient: DEFAULT_HARDHAT_ADDRESS,
   slippageTolerance: new Percent(1, 100),
   deadline: Math.floor(Date.now() / 1000 + 1800),
   type: SwapType.UNIVERSAL_ROUTER,
 };
+
 let swapPathOutput = "Fetching path data...";
 
 async function getAmountOut(usdcAmount: number): Promise<string> {
@@ -26,7 +25,7 @@ async function getAmountOut(usdcAmount: number): Promise<string> {
     usdcAmount * Math.pow(10, USDC.decimals)
   ).toString();
   console.log("usdcInputConverted", usdcInputConverted);
-  console.log("router", router);
+  console.log("router", ROUTER);
 
   const route = await getUsdcCompUniversalRoute(usdcInputConverted);
 
@@ -54,11 +53,11 @@ async function getAmountOut(usdcAmount: number): Promise<string> {
     : "loading";
 }
 async function getUsdcCompUniversalRoute(usdcInputConverted: string) {
-  return await router.route(
+  return await ROUTER.route(
     CurrencyAmount.fromRawAmount(USDC, usdcInputConverted),
     COMP,
     TradeType.EXACT_INPUT,
-    options
+    SWAP_OPTIONS
   );
 }
 
