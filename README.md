@@ -2,6 +2,8 @@
 First input takes amount of USDC in, then displays amount of $COMP out. Uses universal router to determine best path and displays it in UI.
 More detailed data is displayed in the console.
 
+Note: in `SWAP_OPTIONS` swap type is set to `SwapType.UNIVERSAL_ROUTER`. However `SWAP_ROUTER_02` returns the same result as `UNIVERSAL_ROUTER` for this example. Advantage of universal router is support for ERC-721 NFT tokens.
+
 # Created using Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
