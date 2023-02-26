@@ -1,4 +1,8 @@
-# Getting Started with Create React App
+# Universal Router Swap
+First input takes amount of USDC in, then displays amount of $COMP out. Uses universal router to determine best path and displays it in UI.
+More detailed data is displayed in the console.
+
+# Created using Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
